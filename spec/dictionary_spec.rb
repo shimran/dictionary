@@ -10,14 +10,14 @@ describe(Term) do
   describe('#word') do
     it("returns the word within the dictionary") do
     test_word = Term.new("carrot", "A delicious vegetable")
-    expect(test_word.word()).to(eq("carrot"))
+    expect(test_word.word()).to(eq(["carrot"]))
     end
   end
 
   describe('#definition') do
     it("returns the definition within the dictionary") do
     test_word = Term.new("carrot", "A delicious vegetable")
-    expect(test_word.definition()).to(eq("A delicious vegetable"))
+    expect(test_word.definition()).to(eq(["A delicious vegetable"]))
     end
   end
 
@@ -46,21 +46,29 @@ describe(Term) do
       expect(test_word.definition()).to(eq("A not-so delicious vegetable"))
     end
   end
+  describe('#add_word') do
+    it("will add another word to a pre-existing entry") do
+      test_word = Term.new("carrot", "A delicious vegetable")
+      test_word.save()
+      test_word.add_word("zanahorias")
+      expect(test_word.word()).to(eq(["carrot","zanahorias"]))
+    end
+  end
 
   describe(".search") do
     it("searches the dictionary and returns both the word and definition")do
       test_word = Term.new("carrot", "A delicious vegetable")
       test_word.save()
-      expect(Term.search("carrot")).to(eq(test_word))
+      expect(Term.search(["carrot"])).to(eq(test_word))
     end
   end
-  describe(".search") do
-    it("searches the dictionary and deletes a word/defintion pair from the dictionary")do
-      test_word = Term.new("carrot", "A delicious vegetable")
-      test_word.save()
-      expect(Term.delete_one("carrot")).to(eq(nil))
-    end
-  end
+  # describe(".search") do
+  #   it("searches the dictionary and deletes a word/defintion pair from the dictionary")do
+  #     test_word = Term.new("carrot", "A delicious vegetable")
+  #     test_word.save()
+  #     expect(Term.delete_one("carrot")).to(eq(nil))
+  #   end
+  # end
 
 
   describe(".clear") do
